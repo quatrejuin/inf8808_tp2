@@ -66,7 +66,7 @@ function createSources(color, data) {
         name: curRue,      // Le nom de la rue,
         values: {         // Le tableau compte 365 entrées, pour les 365 jours de l'année.
         date: data[i].Date,   // La date du jour.
-        count: data[i][curRue]   // Le nombre de vélos compté ce jour là (effectuer une conversion avec parseInt)
+        count: parseInt(data[i][curRue])   // Le nombre de vélos compté ce jour là (effectuer une conversion avec parseInt)
         }
         })
     }
@@ -97,11 +97,11 @@ function domainX(xFocus, xContext, data) {
  */
 function domainY(yFocus, yContext, sources) {
   // TODO: Préciser les domaines pour les variables "yFocus" et "yContext" pour l'axe Y.
-var maximum =d3.max(listList, function (d) { 
-  return d3.max(d.values, function(f) {
-    return f.count;
-   }); 
-  });
+  var maximum = d3.max(sources,function(s){
+     return d3.max(s,function(d){
+       return d.values.count
+      })
+    })
   yFocus.domain([0, maximum]);
   yContext.domain([0, maximum]); 
 }
