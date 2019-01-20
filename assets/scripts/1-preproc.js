@@ -13,7 +13,8 @@
  */
 function domainColor(color, data) {
   // TODO: Définir le domaine de la variable "color" en associant un nom de rue à une couleur.
-
+  color.domain(data.columns.slice(1,11))
+  color("Berri") // Berri: "#1f77b4"
 }
 
 /**
@@ -24,7 +25,9 @@ function domainColor(color, data) {
  */
 function parseDate(data) {
   // TODO: Convertir les dates du fichier CSV en objet de type Date.
-
+  d3.map(data, function(d) {
+    d.Date = d3.timeParse("%d/%m/%y")(d.Date)
+  })
 }
 
 /**
@@ -50,7 +53,26 @@ function parseDate(data) {
  */
 function createSources(color, data) {
   // TODO: Retourner l'objet ayant le format demandé.
-
+  
+  var listList = []
+  var curRue;
+  for (var j=0;j < color.domain().length; j++)
+  {
+    curRue = color.domain()[j]
+    var objList = []
+    for (var i=0;i < data.length; i++)
+    {
+      objList.push({
+        name: curRue,      // Le nom de la rue,
+        values: {         // Le tableau compte 365 entrées, pour les 365 jours de l'année.
+        date: data[i].Date,   // La date du jour.
+        count: data[i][curRue]   // Le nombre de vélos compté ce jour là (effectuer une conversion avec parseInt)
+        }
+        })
+    }
+    listList.push(objList)
+  }
+  return listList
 }
 
 /**
@@ -62,7 +84,8 @@ function createSources(color, data) {
  */
 function domainX(xFocus, xContext, data) {
   // TODO: Préciser les domaines pour les variables "xFocus" et "xContext" pour l'axe X.
-
+  xFocus.domain([data[0].Date, data[data.length -1].Date]);
+  xContext.domain([data[0].Date, data[data.length -1].Date]);
 }
 
 /**
@@ -74,5 +97,11 @@ function domainX(xFocus, xContext, data) {
  */
 function domainY(yFocus, yContext, sources) {
   // TODO: Préciser les domaines pour les variables "yFocus" et "yContext" pour l'axe Y.
-
+var maximum =d3.max(listList, function (d) { 
+  return d3.max(d.values, function(f) {
+    return f.count;
+   }); 
+  });
+  yFocus.domain([0, maximum]);
+  yContext.domain([0, maximum]); 
 }
