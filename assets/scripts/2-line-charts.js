@@ -17,7 +17,9 @@
  */
 function createLine(x, y) {
   // TODO: Retourner une ligne SVG (voir "d3.line"). Pour l'option curve, utiliser un curveBasisOpen.
-
+  return d3.line()
+    .x(function(d) { return x(d.values.date); })
+    .y(function(d) { return y(d.values.count); });
 }
 
 /**
@@ -31,7 +33,17 @@ function createLine(x, y) {
 function createFocusLineChart(g, sources, line, color) {
   // TODO: Dessiner le graphique focus dans le groupe "g".
   // Pour chacun des "path" que vous allez dessiner, spécifier l'attribut suivant: .attr("clip-path", "url(#clip)").
-
+  g.selectAll("path")
+  .data(sources)
+  .enter()
+  .append("path")
+  .attr("fill", "none")
+  .attr("stroke", function(d){ return color(d[0].name)})
+  .attr("stroke-linejoin", "round")
+  .attr("stroke-linecap", "round")
+  .attr("stroke-width", 1.5)
+  .attr("d", line)
+  .attr("clip-path", "url(#clip)")
 }
 
 /**
@@ -44,5 +56,14 @@ function createFocusLineChart(g, sources, line, color) {
  */
 function createContextLineChart(g, sources, line, color) {
   // TODO: Dessiner le graphique contexte dans le groupe "g".
-
+  g.selectAll("path")
+  .data(sources)
+  .enter()
+  .append("path")
+  .attr("fill", "none")
+  .attr("stroke", function(d){ return color(d[0].name)})
+  .attr("stroke-linejoin", "round")
+  .attr("stroke-linecap", "round")
+  .attr("stroke-width", 1.5)
+  .attr("d", line)
 }
