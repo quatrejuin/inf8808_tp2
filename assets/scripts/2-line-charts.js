@@ -38,10 +38,24 @@ function createFocusLineChart(g, sources, line, color) {
   .enter()
   .append("path")
   .attr("fill", "none")
-  .attr("stroke", function(d){ return color(d[0].name)})
+  .attr("stroke", function(d){ 
+    if (d[0].name == 'Moyenne')
+    {
+      return "#000000"
+    }
+    else 
+      return color(d[0].name)
+  })
   .attr("stroke-linejoin", "round")
   .attr("stroke-linecap", "round")
-  .attr("stroke-width", 1.5)
+  .attr("stroke-width", function(d){ 
+    if (d[0].name == 'Moyenne')
+    {
+      return 2
+    }
+    else 
+      return 1.5
+  })
   .attr("d", line)
   .attr("clip-path", "url(#clip)")
 }
@@ -61,9 +75,24 @@ function createContextLineChart(g, sources, line, color) {
   .enter()
   .append("path")
   .attr("fill", "none")
-  .attr("stroke", function(d){ return color(d[0].name)})
+  .attr("stroke", function(d){ 
+    if (d[0].name == 'Moyenne')
+    {
+      return "#000000"
+    }
+    else 
+      return color(d[0].name)
+  })
   .attr("stroke-linejoin", "round")
   .attr("stroke-linecap", "round")
-  .attr("stroke-width", 1.5)
+  .attr("stroke-width", function(d){ 
+    if (d[0].name == 'Moyenne')
+    {
+      return 2
+    }
+    else 
+      return 1.5
+  })
   .attr("d", line)
+  .attr("clip-path", "url(#clip)")
 }
