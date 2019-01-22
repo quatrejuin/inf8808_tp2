@@ -20,14 +20,10 @@
  * @see https://bl.ocks.org/mbostock/34f08d5e11952a80609169b7917d4172    ==> (en d3 v5) <==
  */
 function brushUpdate(brush, g, line, xFocus, xContext, xAxis, yAxis) {
-
-	xFocus.domain(brush.empty() ? xContext.domain() : brush.extent() );
-	
-	g.select(".x.axis").call(xAxis);
-	g.select(".y.axis").call(yAxis);
-	g.selectAll("path").attr("d", function(d) { return line(d.values) });
-
-
   // TODO: Redessiner le graphique focus en fonction de la zone sélectionnée dans le graphique contexte.
+  var s = d3.event.selection || xContext.range();
+  xFocus.domain(s.map(xContext.invert, xContext));
+  g.selectAll("path").attr("d", line);
+  g.select(".x axis").call(xAxis);
 }
 
