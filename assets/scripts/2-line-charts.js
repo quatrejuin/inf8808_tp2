@@ -33,10 +33,11 @@ function createLine(x, y) {
 function createFocusLineChart(g, sources, line, color) {
   // TODO: Dessiner le graphique focus dans le groupe "g".
   // Pour chacun des "path" que vous allez dessiner, spécifier l'attribut suivant: .attr("clip-path", "url(#clip)").
-  g.selectAll("path")
+  g.selectAll(".focusLine")
   .data(sources)
   .enter()
   .append("path")
+  .attr("class","focusLine")
   .attr("fill", "none")
   .attr("stroke", function(d){ 
     if (d[0].name == 'Moyenne')
@@ -70,10 +71,11 @@ function createFocusLineChart(g, sources, line, color) {
  */
 function createContextLineChart(g, sources, line, color) {
   // TODO: Dessiner le graphique contexte dans le groupe "g".
-  g.selectAll("path")
+  g.selectAll(".contextLine")
   .data(sources)
   .enter()
   .append("path")
+  .attr("class","contextLine")
   .attr("fill", "none")
   .attr("stroke", function(d){ 
     if (d[0].name == 'Moyenne')

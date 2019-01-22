@@ -24,7 +24,7 @@ function brushUpdate(brush, g, line, xFocus, xContext, xAxis, yAxis) {
   var s = d3.event.selection || xContext.range();
   xFocus.domain(s.map(xContext.invert, xContext));
   g.select(".x.axis").call(xAxis);
-  g.selectAll("path").attr("d", line);
-  
+  g.selectAll(".focusLine")
+  .attr("d", line);
 }
 
