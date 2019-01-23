@@ -18,14 +18,23 @@ function legend(svg, sources, color) {
   .attr("class","legend")
   .attr("transform","translate(50,30)")
   .style("font-size","12px")
-  .selectAll(".oneLegend")
+
+  // background
+  legend.append("rect")
+  .attr("transform","translate(40,-15)")  
+  .attr("width", 170)
+  .attr("height", 250)
+  .attr("opacity",0.7)
+  .attr("fill", "#eeeeee")
+
+
+  legend = legend.selectAll(".oneLegend")
   .data(color.domain())
   .enter()
 
   var padding = 4
   var boxSize = 19
   var startPos = 55
-  
 
   //append legend colour blocks
   legend.append("rect")
@@ -51,15 +60,16 @@ function legend(svg, sources, color) {
     
     displayLine(d3.select(this),color);
 
-    svg.selectAll(".focusLine")
+    svg.selectAll(".focusLine,.contextLine")
     .attr("stroke", function(d){ 
       return color(d[0].name)
     })
-
-    svg.selectAll(".contextLine")
-    .attr("stroke", function(d){ 
-      return color(d[0].name)
-    })
+    .attr("opacity", function(d){ 
+      if (color(d[0].name) == "#ffffff")
+      {
+        return 0
+      }
+    })   // si la couleur est #ffffff, met l'opacity à 0%
     }
   );
 
