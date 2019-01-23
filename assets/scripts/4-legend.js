@@ -14,7 +14,63 @@
  */
 function legend(svg, sources, color) {
   // TODO: Créer la légende accompagnant le graphique.
+  legend = svg.append("g")
+  .attr("class","legend")
+  .attr("transform","translate(50,30)")
+  .style("font-size","12px")
+  .selectAll(".oneLegend")
+  .data(color.domain())
+  .enter()
 
+  var padding = 4
+  var boxSize = 19
+  var startPos = 55
+  
+
+  //append legend colour blocks
+  legend.append("rect")
+  .attr("x", startPos)
+  .attr("y", function(d,i){ return i*(boxSize+padding)-5})
+  .attr("class", "oneLegend")
+  .attr("width", boxSize)
+  .attr("height", boxSize)
+  .attr("stroke","#333333")
+  .attr("fill", function(d){ return color(d)})
+  .on("click", function (d) {
+    if (d3.select(this).attr("fill") == '#ffffff') 
+    {
+      d3.select(this).attr("fill",d3.select(this).attr("originalColor"))
+      .attr("originalColor",null);
+    }
+    else
+    {
+      d3.select(this)
+      .attr("originalColor",d3.select(this).attr("fill"))
+      .attr("fill","#ffffff");
+    }
+    
+    displayLine(d3.select(this),color);
+
+    svg.selectAll(".focusLine")
+    .attr("stroke", function(d){ 
+      return color(d[0].name)
+    })
+
+    svg.selectAll(".contextLine")
+    .attr("stroke", function(d){ 
+      return color(d[0].name)
+    })
+    }
+  );
+
+  //append legend texts
+  legend.append("text")
+  .attr("x", startPos + boxSize+padding)
+  .attr("y", function(d,i){ return i*(boxSize+padding)+10})
+  .attr("class", "oneLegend")
+  .text(function(d) {
+    return d;
+  });
 
 }
 
@@ -29,5 +85,9 @@ function legend(svg, sources, color) {
  */
 function displayLine(element, color) {
   // TODO: Compléter le code pour faire afficher ou disparaître une ligne en fonction de l'élément cliqué.
-
+  var lineColor = element.attr("fill")
+  var lineIdx = color.domain().indexOf(element.data()[0])
+  var colorList = color.range()
+  colorList[lineIdx] = lineColor
+  color.range(colorList)
 }

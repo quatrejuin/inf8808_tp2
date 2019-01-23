@@ -14,7 +14,11 @@
 function domainColor(color, data) {
   // TODO: Définir le domaine de la variable "color" en associant un nom de rue à une couleur.
   color.domain(data.columns.slice(1,11))
-  color("Berri") // Berri: "#1f77b4"
+  // Test color("Berri") // Berri: "#1f77b4"
+  // Changer la color de moyenne à noir
+  var colorList = color.range()
+  colorList[9] = "#000000"
+  color.range(colorList)
 }
 
 /**

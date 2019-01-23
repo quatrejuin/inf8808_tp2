@@ -39,12 +39,8 @@ function createFocusLineChart(g, sources, line, color) {
   .append("path")
   .attr("class","focusLine")
   .attr("fill", "none")
+  .attr("data-legend",function(d) { return d[0].name})
   .attr("stroke", function(d){ 
-    if (d[0].name == 'Moyenne')
-    {
-      return "#000000"
-    }
-    else 
       return color(d[0].name)
   })
   .attr("stroke-linejoin", "round")
@@ -78,11 +74,6 @@ function createContextLineChart(g, sources, line, color) {
   .attr("class","contextLine")
   .attr("fill", "none")
   .attr("stroke", function(d){ 
-    if (d[0].name == 'Moyenne')
-    {
-      return "#000000"
-    }
-    else 
       return color(d[0].name)
   })
   .attr("stroke-linejoin", "round")
