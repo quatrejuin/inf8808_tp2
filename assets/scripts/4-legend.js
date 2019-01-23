@@ -46,32 +46,27 @@ function legend(svg, sources, color) {
   .attr("stroke","#333333")
   .attr("fill", function(d){ return color(d)})
   .on("click", function (d) {
-    if (d3.select(this).attr("fill") == '#ffffff') 
+    // Garder la couleur original avec attribut originalColor
+    var e = d3.select(this)
+    if (e.attr("fill") == '#ffffff') 
     {
-      d3.select(this).attr("fill",d3.select(this).attr("originalColor"))
+      e.attr("fill",e.attr("originalColor"))
       .attr("originalColor",null);
     }
     else
     {
-      d3.select(this)
-      .attr("originalColor",d3.select(this).attr("fill"))
+      e.attr("originalColor",e.attr("fill"))
       .attr("fill","#ffffff");
     }
     
-    displayLine(d3.select(this),color);
-
-    svg.selectAll(".focusLine,.contextLine")
-    .attr("stroke", function(d){ 
-      return color(d[0].name)
-    })
-    .attr("opacity", function(d){ 
-      if (color(d[0].name) == "#ffffff")
-      {
-        return 0
-      }
-    })   // si la couleur est #ffffff, met l'opacity à 0%
-    }
-  );
+    displayLine(e,color);
+  })
+  .on("mouseover", function (d) {
+    d3.select(this).attr("opacity",0.5)
+  })
+  .on("mouseout", function (d) {
+    d3.select(this).attr("opacity",1)
+  });
 
   //append legend texts
   legend.append("text")
@@ -100,4 +95,16 @@ function displayLine(element, color) {
   var colorList = color.range()
   colorList[lineIdx] = lineColor
   color.range(colorList)
+
+  d3.select("svg").selectAll(".focusLine,.contextLine")
+  .attr("stroke", function(d){ 
+    return color(d[0].name)
+  })
+  .attr("opacity", function(d){ 
+    if (color(d[0].name) == "#ffffff")
+    {
+      return 0
+    }
+  })   // si la couleur est #ffffff, met l'opacity à 0%
 }
+
