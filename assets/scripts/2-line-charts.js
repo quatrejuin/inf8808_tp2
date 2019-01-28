@@ -19,7 +19,8 @@ function createLine(x, y) {
   // TODO: Retourner une ligne SVG (voir "d3.line"). Pour l'option curve, utiliser un curveBasisOpen.
   return d3.line()
     .x(function(d) { return x(d.values.date); })
-    .y(function(d) { return y(d.values.count); });
+    .y(function(d) { return y(d.values.count); })
+    .curve(d3.curveBasisOpen);
 }
 
 /**
